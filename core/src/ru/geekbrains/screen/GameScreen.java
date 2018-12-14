@@ -40,6 +40,7 @@ public class GameScreen extends Base2DScreen {
 
     private Music music;
     private Sound mainShipShootSound;
+    private Sound enemyShipShootSound;
 
     public GameScreen(Game game) {
         super(game);
@@ -61,7 +62,8 @@ public class GameScreen extends Base2DScreen {
         bulletPool = new BulletPool();
         mainShipShootSound = Gdx.audio.newSound(Gdx.files.internal("sounds/laser.wav"));
         mainShip = new MainShip(textureAtlas, bulletPool, mainShipShootSound);
-        enemyPool = new EnemyPool(bulletPool, mainShip, worldBounds);
+        enemyShipShootSound = Gdx.audio.newSound(Gdx.files.internal("sounds/bullet.wav"));
+        enemyPool = new EnemyPool(bulletPool, mainShip, worldBounds, enemyShipShootSound);
         enemiesEmitter = new EnemiesEmitter(worldBounds, enemyPool, textureAtlas);
     }
 

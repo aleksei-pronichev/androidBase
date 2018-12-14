@@ -1,5 +1,6 @@
 package ru.geekbrains.sprite;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
@@ -10,21 +11,27 @@ import ru.geekbrains.pool.BulletPool;
 public class Enemy extends Ship {
 
     private MainShip mainShip;
-    private Rect worldBounds;
 
     private Vector2 v0 = new Vector2();
 
-    public Enemy(BulletPool bulletPool, MainShip mainShip, Rect worldBounds) {
+    public Enemy(BulletPool bulletPool, MainShip mainShip, Rect worldBounds, Sound shootSound) {
         this.bulletPool = bulletPool;
         this.mainShip = mainShip;
         this.worldBounds = worldBounds;
         this.v.set(v0);
+        this.shootSound = shootSound;
     }
 
     @Override
     public void update(float delta) {
         super.update(delta);
         pos.mulAdd(v, delta);
+        reloadTimer += delta;
+        if (reloadTimer >= reloadInterval) {
+            reloadTimer = 0f;
+            shoot();
+        }
+
         if (getBottom() <= worldBounds.getBottom()) {
             this.setDestroyed(true);
         }
